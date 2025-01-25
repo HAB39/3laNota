@@ -1,0 +1,386 @@
+body {
+  font-family: "Tajawal", sans-serif;
+  padding-top: 100px;
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.navbar {
+  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand,
+.navbar-nav .nav-link {
+  color: #fff !important;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+.btn {
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  touch-action: manipulation;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%) !important;
+  border: none !important;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #27ae60 0%, #219a52 100%) !important;
+  border: none !important;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+  border: none !important;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.form-control {
+  border-radius: 10px;
+  padding: 12px;
+  border: 2px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #3498db;
+  box-shadow: none;
+}
+
+.table {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.table th {
+  background: linear-gradient(135deg, #4f3cfb 0%, #4f3cfb 50%);
+  color: white;
+  font-weight: 700;
+  border: one;
+}
+
+.table td,
+.table th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.number-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 15px 0;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.number-pad button {
+  background: #fff;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+}
+
+.number-pad button:active {
+  background: #6180fc;
+  transform: scale(0.98);
+}
+
+.modal-body {
+  padding: 10px;
+}
+
+/* Clickable transaction row */
+.transaction-row {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.transaction-row:hover {
+  background-color: #f5f5f5;
+}
+
+/* Pagination styling */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px auto;
+  align-items: center;
+  max-width: 100%;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  background: #2c3e50;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sales-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.sales-header h2 {
+  margin: 0;
+  text-align: right;
+  margin-left: 30px;
+  margin-bottom: 10px;
+}
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #3498db;
+}
+
+.pagination span {
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+/* Cart review button */
+.cart-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  body {
+    padding-top: 10px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .number-pad button {
+    padding: 8px;
+    font-size: 24px;
+  }
+
+  .table {
+    font-size: 14px;
+  }
+
+  .table td,
+  .table th {
+    padding: 8px;
+  }
+
+  .form-control {
+    font-size: 16px;
+    height: auto;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  .section-container {
+    padding: 10px;
+  }
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Toast Messages */
+.success-message,
+.error-message {
+  border-radius: 10px;
+  padding: 15px 25px;
+  font-weight: 700;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Loading overlay styles */
+.loading-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+.loading-text {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Ensure the modal is RTL */
+#transactionModal .modal-dialog {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Align text to the right within the modal */
+#transactionModal .modal-body {
+  text-align: right;
+}
+
+/* Ensure the table within the modal is RTL */
+#transactionModal .table {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Align table headers to the right */
+#transactionModal .table th {
+  text-align: right;
+}
+
+/* Align table cells to the right */
+#transactionModal .table td {
+  text-align: right;
+}
+
+/* Set a wider width for the product name column */
+#productTable td.product-name {
+  width: 60%; /* Adjust this value as needed */
+  text-align: center; /* Align text to the left for better readability */
+}
+
+/* Adjust the width of the actions column */
+#productTable td:not(.product-name) {
+  width: 40%; /* Adjust this value as needed */
+  text-align: center; /* Center-align buttons */
+}
+/* Ensure buttons are displayed side by side */
+#productTable td button {
+  display: inline-block; /* Display buttons inline */
+  margin: 2px 5px; /* Add some spacing between buttons */
+  min-width: 5px; /* Set a minimum width for the buttons */
+  padding: 8px 12px; /* Adjust padding for better appearance */
+}
+
+/* Add this to styles.css */
+#clearDatabase {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+  border: none !important;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  margin-top: 10px; /* Add some spacing */
+}
+
+#clearDatabase:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ع النــوتــة</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">جاري التحميل...</div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="#">ع النــوتــة</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+      <i class="fa-duotone fa-solid fa-burger fa-beat-fade"
+        style="--fa-primary-color: #8080ff; --fa-secondary-color: #ff0000;"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#sales">المبيعات</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#transactions">المعاملات</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#clients">العملاء</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#products">المنتجات</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#reports">التقارير</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#statistics">الإحصائيات</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#dbmaintenance">إدارة قاعدة البيانات</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="success-message" id="successMessage"></div>
+    <div class="error-message" id="errorMessage"></div>
+    <div class="container">
+      <!-- Sales Page -->
+      <div id="sales" class="section-container">
+        <div class="sales-header">
+          <h2>المبيعات</h2>
+          <div class="form-group" style="width: 170px">
+            <input type="date" class="form-control" style="text-align: center" id="saleDate" />
+          </div>
+        </div>
+      </div>
+
+      <div class="sales-row">
+        <div class="form-group">
+          <input type="text" class="form-control" id="clientSearch" placeholder="ابحث عن العميل" />
+        </div>
+        <div class="form-group">
+          <select class="form-control" id="client">
+            <option value="" disabled selected>اختر العميل</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="sales-row">
+        <div class="form-group">
+          <select class="form-control" id="productSelect">
+            <option value="" disabled selected>اختر المنتج</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" id="productPrice" placeholder="السعر" readonly />
+        </div>
+      </div>
+      <div class="number-pad">
+        <button onclick="addNumber('1')">1</button>
+        <button onclick="addNumber('2')">2</button>
+        <button onclick="addNumber('3')">3</button>
+        <button onclick="addNumber('4')">4</button>
+        <button onclick="addNumber('5')">5</button>
+        <button onclick="addNumber('6')">6</button>
+        <button onclick="addNumber('7')">7</button>
+        <button onclick="addNumber('8')">8</button>
+        <button onclick="addNumber('9')">9</button>
+        <button onclick="addNumber('0')">0</button>
+        <button onclick="addNumber('.')">.</button>
+        <button onclick="clearPrice()">مسح</button>
+      </div>
+    </div>
+    <!-- Modified cart buttons section -->
+    <div class="cart-buttons">
+      <button class="btn btn-primary" id="addProductToCart">
+        <i class="fas fa-cart-plus"></i> إضافة إلى السلة
+      </button>
+      <button class="btn btn-info" id="reviewCart">
+        <i class="fas fa-eye"></i> معاينة السلة
+      </button>
+    </div>
+    <h3 style="text-align: center; margin-top: 20px">سلة المشتروات</h3>
+    <table class="table table-bordered" id="cartTable">
+      <thead>
+        <tr>
+          <th>اسم المنتج</th>
+          <th>السعر</th>
+          <th>إجراءات</th>
+        </tr>
+      </thead>
+      <tbody id="cartBody"></tbody>
+    </table>
+    <div id="cartTotal" style="text-align: center; font-size: 20px">
+      الإجمالي: 0 جنيه
+    </div>
+    <!-- Transaction Details Modal -->
+    <div class="modal fade" id="transactionModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">تفاصيل المعاملة</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="transactionDetails"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-success" id="confirmSale">
+      <i class="fas fa-check"></i> تأكيد عملية البيع
+    </button>
+  </div>
+  </div>
+
+  <!-- Transactions Page -->
+  <div id="transactions" class="section-container">
+    <h2 style="text-align: center">المعاملات</h2>
+    <div class="search-box">
+      <input type="text" class="form-control" id="transactionSearch" placeholder="ابحث عن المعاملة..."
+        oninput="filterTransactions()" />
+    </div>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>اسم العميل</th>
+          <th>رقم المعاملة</th>
+          <th>تاريخ المعاملة</th>
+          <th>الإجمالي</th>
+        </tr>
+      </thead>
+      <tbody id="transactionTable"></tbody>
+    </table>
+    <div class="pagination-container" id="transactionPagination"></div>
+  </div>
+
+  <!-- Clients Page -->
+  <div id="clients" class="section-container">
+    <h2 style="text-align: center">العملاء</h2>
+    <div style="text-align: right" class="form-group">
+      <label for="clientName">اسم العميل</label>
+      <input type="text" class="form-control" id="clientName" />
+    </div>
+    <div style="text-align: right" class="form-group">
+      <label for="clientMobile">رقم الجوال</label>
+      <input type="text" class="form-control" id="clientMobile" />
+    </div>
+    <div style="text-align: right" class="form-group">
+      <label for="lastPaymentDate">تاريخ آخر دفعة</label>
+      <input type="date" class="form-control" id="lastPaymentDate" />
+    </div>
+    <button class="btn btn-primary" id="addClient">
+      <i class="fas fa-user-plus"></i> إضافة عميل
+    </button>
+    <button class="btn btn-secondary" id="cancelUpdate" style="display: none;">
+      <i class="fas fa-times"></i> إلغاء
+    </button>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>اسم العميل</th>
+            <th>رقم الجوال</th>
+            <th>تاريخ آخر دفعة</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="clientTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination-container" id="clientPagination"></div>
+  </div>
+
+  <!-- Products Page -->
+  <div id="products" class="section-container">
+    <h2 style="text-align: center">المنتجات</h2>
+    <div style="text-align: right" class="form-group">
+      <label for="productName">اسم المنتج</label>
+      <input type="text" class="form-control" id="productName" />
+    </div>
+    <button class="btn btn-primary" id="addProduct">
+      <i class="fas fa-box"></i> إضافة منتج
+    </button>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>اسم المنتج</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="productTable"></tbody>
+      </table>
+    </div>
+    <div class="pagination-container" id="productPagination"></div>
+  </div>
+
+  <!-- Reports Page -->
+  <div id="reports" class="section-container">
+    <h2 style="text-align: center">التقارير</h2>
+    <div class="section-container">
+
+      <h3 style="text-align: center">تقرير المبيعات</h3>
+      <div style="text-align: right" class="form-group">
+        <label for="reportStartDate">تاريخ البداية</label>
+        <input type="date" class="form-control" id="reportStartDate" />
+      </div>
+      <div style="text-align: right" class="form-group">
+        <label for="reportEndDate">تاريخ النهاية</label>
+        <input type="date" class="form-control" id="reportEndDate" />
+      </div>
+      <button class="btn btn-primary" id="generateSalesReport">
+        <i class="fas fa-file-alt"></i> توليد التقرير
+      </button>
+      <!-- Add a summary section -->
+      <div id="salesReportSummary" class="mt-3"></div>
+      <div class="table-responsive">
+        <table class="table table-bordered" id="salesReportTable">
+          <thead>
+            <tr>
+              <th>رقم المعاملة</th>
+              <th>اسم العميل</th>
+              <th>تاريخ المعاملة</th>
+              <th>الإجمالي</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="pagination-container" id="salesReportPagination"></div>
+
+      <!-- Other report sections -->
+    </div>
+  </div>
+  <!-- HTML for the Due Amounts Report Table -->
+  <div id="dueAmountsReport" class="section-container">
+    <h2 style="text-align: center">تقرير المبالغ المستحقة</h2>
+    <table class="table table-bordered" id="dueAmountsTable">
+      <thead>
+        <tr>
+          <th>اسم العميل</th>
+          <th>المبلغ المستحق</th>
+          <th>آخر تاريخ دفع</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div id="dueAmountsPagination" class="pagination-container"></div>
+
+    <button class="btn btn-success" onclick="exportDueClientsReportPDF()"><i class="fas fa-download"></i> تحميل التقرير
+      كملف PDF</button>
+
+    <button class="btn btn-success" onclick="ShareDueClientsReportWhatsApp()">
+      <i class="fa-brands fa-whatsapp" style="color: #ffffff;"></i> مشاركة التقرير عبر الواتساب
+    </button>
+
+  </div>
+
+
+  <div id="clientPurchases" class="section-container">
+    <h3 style="text-align: center">تقرير مديونية عميل</h3>
+    <div style="text-align: right" class="form-group">
+      <label for="clientSearchReport">ابحث عن العميل</label>
+      <input type="text" class="form-control" id="clientSearchReport" placeholder="ابحث عن العميل" />
+    </div>
+    <div class="form-group">
+      <div style="text-align: right" class="form-group">
+        <select class="form-control" id="clientSelectReport">
+          <option value="" disabled selected>اختر العميل</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="generateClientReport">
+        <i class="fas fa-file-alt"></i> توليد التقرير
+      </button>
+      <div class="table-responsive">
+        <table class="table table-bordered" id="clientReportTable">
+          <thead>
+            <tr>
+              <th>رقم المعاملة</th>
+              <th>تاريخ المعاملة</th>
+              <th>اسم المنتج</th>
+              <th>السعر</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <button class="btn btn-success" id="exportClientReportPDF">
+        <i class="fas fa-download"></i> تحميل التقرير كملف PDF
+      </button>
+      <button class="btn btn-success" id="SharetClientReportWhatsApp">
+        <i class="fa-brands fa-whatsapp" style="color: #ffffff;"></i> مشاركة التقرير عبر الواتساب
+      </button>
+    </div>
+  </div>
+  </div>
+
+  <!-- Statistics Page -->
+  <div id="statistics" class="section-container">
+    <h2 style="text-align: center">الإحصائيات</h2>
+    <h4 style="text-align: center">أعلى 10 مديونيات</h4>
+    <div style="max-height: 500px; overflow-y: auto">
+      <canvas id="topClientsChart"
+        style="max-width: 800px; margin: 0 auto ; margin-bottom: 20px; margin-top: 20px;height: 300px;"></canvas>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered" id="topClientsTable">
+        <thead>
+          <tr>
+            <th>اسم العميل</th>
+            <th>المبلغ المستحق</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <!-- New Sales Accumulation Chart -->
+    <h4 style="text-align: center; margin-top: 40px;">إجمالي المبيعات</h4>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <select id="salesPeriod" class="form-control" style="width: 90%; max-width: 200px; margin: 0 auto;">
+        <option value="day">يومي</option>
+        <option value="week">أسبوعي</option>
+        <option value="month">شهري</option>
+      </select>
+    </div>
+    <div style="max-height: 500px; overflow-y: auto; padding: 10px;">
+      <canvas id="salesAccumulationChart" style="width: 100%; height: 300px;"></canvas>
+    </div>
+  </div>
+
+
+  <!-- Database Management Page -->
+  <div id="dbmaintenance" class="section-container">
+    <h2 style="text-align: center" style="margin-bottom: 20px;">إدارة قاعدة البيانات</h2>
+    <button class="btn btn-primary" id="backupDatabase">
+      <i class="fas fa-database" ;margin-bottom: 20px;></i> إنشاء نسخة احتياطية
+    </button>
+    <button class="btn btn-success" id="ShareBackupWhatsApp">
+      <i class="fa-brands fa-whatsapp" style="color: #ffffff;"></i> مشاركة قاعدة البيانات عبر الواتساب
+    </button>
+    <button class="btn btn-warning" id="restoreDatabase">
+      <i class="fas fa-database"></i> استعادة نسخة احتياطية
+    </button>
+    <!-- Add the Clear Database Button -->
+    <button class="btn btn-danger" style="margin-top: 30px;" id="clearDatabase">
+      <i class="fas fa-trash"></i> مسح قاعدة البيانات بالكامل
+    </button>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="PdfReports.js"></script>
+  <script src="db.js"></script>
+  <script src="scripts.js"></script>
+
+</body>
+
+</html>
