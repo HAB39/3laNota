@@ -1,14 +1,14 @@
 const CACHE_NAME = '3laNota-POS-v1';
 const urlsToCache = [
-  '/',
-  '/styles.css',
-  '/scripts.js',
-  '/index.html',
-  '/db.js',
-  '/jspdf.umd.min.js',
-  '/logo_512.png',
-  '/logo_192.png',
-  '/PdfReports.js'
+  '/3laNota/',
+  '/3laNota/styles.css',
+  '/3laNota/scripts.js',
+  '/3laNota/index.html',
+  '/3laNota/db.js',
+  '/3laNota/jspdf.umd.min.js',
+  '/3laNota/logo_512.png',
+  '/3laNota/logo_192.png',
+  '/3laNota/PdfReports.js'
 ];
 
 self.addEventListener('install', event => {
