@@ -6,6 +6,8 @@ const urlsToCache = [
   '/index.html',
   '/db.js',
   '/jspdf.umd.min.js',
+  '/logo_512.png',
+  '/logo_192.png',
   '/PdfReports.js'
 ];
 
