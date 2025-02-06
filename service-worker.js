@@ -1,4 +1,4 @@
-const CACHE_NAME = '3laNota-POS-v1';
+const CACHE_NAME = '3laNota-POS-v2'; // Updated cache version
 const urlsToCache = [
   '/3laNota/',
   '/3laNota/styles.css',
@@ -34,4 +34,34 @@ self.addEventListener('install', event => {
         console.error('Failed to cache resources:', error);
       })
   );
+  self.skipWaiting(); // Activate new SW immediately
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cache => {
+          if (cache !== CACHE_NAME) {
+            console.log('Deleting old cache:', cache);
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim(); // Take control immediately
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
+});
+
+// Notify clients of new version
+self.addEventListener('controllerchange', () => {
+  alert('New version available! Refresh to update.');
 });
